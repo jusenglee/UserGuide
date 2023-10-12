@@ -1,78 +1,11 @@
-package kr.koar.www.guide.useguide.web;
-
-import kr.koar.www.main.login.service.SessionVO;
-import org.apache.commons.text.StringEscapeUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.parser.Parser;
-import org.jsoup.safety.Safelist;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import egovframework.rte.fdl.property.EgovPropertyService;
-import kr.koar.manage.koar.main.service.MngMainService;
-import kr.koar.manage.useguide.service.MngUseGuideService;
-import kr.koar.manage.useguide.service.PrcuseGuideVO;
-import kr.koar.manage.useguide.web.MngUseGuideController;
-import kr.koar.www.com.common.service.CommonService;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 @RequestMapping("/useguide")
 @Controller
 public class UseGuideController {
   
-    @Resource(name = "mngMainService")
-    private MngMainService mngMainService;
   
-    @Resource(name = "commonService")
-    private CommonService commonService;
-    
-    @Resource(name = "mngUseGuideService")
-    private MngUseGuideService mngUseGuideService; 
-    
-    @Resource(name = "propertiesService")
-    protected EgovPropertyService propertiesService;
-  
-    private static final Logger LOGGER = LoggerFactory.getLogger(MngUseGuideController.class);
-    
-    @RequestMapping("researcherUseGuide.do")
-    public String researchUseGuide(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        SessionVO sessionVO = (SessionVO) session.getAttribute("sessionVO");
-        if (sessionVO != null) {
-            model.addAttribute("session", sessionVO);
-        }
-        // 사이드 메뉴 분기처리
-        model.addAttribute("sideMenu", "useguide");
-        return "/koar/guide/useguide/researcherUseGuide";
-    }
 
-    @RequestMapping("academicOrganUseGuide.do")
-    public String academicOrganUseGuide(HttpServletRequest request, Model model) {
-        // 사이드 메뉴 분기처리
-        model.addAttribute("sideMenu", "useguide");
-        return "/koar/guide/useguide/academicOrganUseGuide";
-    }
-
-    @RequestMapping("libraryUseGuide.do")
-    public String tempLibrary(HttpServletRequest request, Model model) {
-        // 사이드 메뉴 분기처리
-        model.addAttribute("sideMenu", "useguide");
-        return "/koar/guide/useguide/libraryUseGuide";
-    }
-
-
-    @RequestMapping("getStartedUserGuide.do")
-    public String tempHelpCenter(@RequestParam(required = false, defaultValue = "NTSP02") String systemCode, HttpServletRequest request, Model model)throws Exception {
+    @RequestMapping("UserGuide")
+    public String tempHelpCenter(@RequestParam(required = false) String systemCode, HttpServletRequest request, Model model)throws Exception {
         //HttpSession session = request.getSession();
         //String localeValue = session.getAttribute("language") != null ? session.getAttribute("language").toString() : "ko";
         String localeValue = "ko";
@@ -96,7 +29,7 @@ public class UseGuideController {
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping("helpDeskUseGuideAjax")
+    @RequestMapping("Ajax")
     public Map<String, Object> useGuideInfoAjax(@RequestParam(required = false) String prcuseGidSn,
         @RequestParam(required = false) String searchKeyword, HttpServletRequest request) throws Exception {
         //HttpSession session = request.getSession();
